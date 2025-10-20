@@ -17,14 +17,14 @@ namespace us {
 		unsigned int m_cornerPoints;
 	};
 
-	class SuperEllipseShape : public sf::Shape {
+	class Triangle : public sf::Shape {
 	public:
-		SuperEllipseShape(float a = 100, float b = 100, float n = 2.f, unsigned int points = 50);
+		Triangle(const sf::Vector2f pointA, const sf::Vector2f pointB, const sf::Vector2f pointC);
 
+		void setPoint(std::size_t index, const sf::Vector2f& position);
 		virtual std::size_t getPointCount() const override;
 		virtual sf::Vector2f getPoint(size_t index) const override;
 	private:
-		float m_a, m_b, m_n, m_points;
-		float sgn(float v) const { return (v >= 0) ? 1.f : -1.f; }
+		sf::Vector2f m_p1, m_p2, m_p3;
 	};
 }

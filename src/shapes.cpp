@@ -56,22 +56,28 @@ namespace us {
 
 
 
-	SuperEllipseShape::SuperEllipseShape(float a, float b, float n, unsigned int points) : m_a(a), m_b(b), m_n(n), m_points(points) {
+	Triangle::Triangle(const sf::Vector2f pointA, const sf::Vector2f pointB, const sf::Vector2f pointC) 
+		: m_p1(pointA), m_p2(pointB), m_p3(pointC) {
 		update();
 	}
 
-	std::size_t SuperEllipseShape::getPointCount() const { 
-		return m_points; 
+	void Triangle::setPoint(std::size_t index, const sf::Vector2f& position) {
+		switch (index) {
+		case 0: m_p1 = position; break;
+		case 1: m_p2 = position; break;
+		case 2: m_p3 = position; break;
+		}
+		update();
 	}
 
-	sf::Vector2f SuperEllipseShape::getPoint(size_t index) const {
-		float t = 2.f * PI * index / m_points;
-		float cos_t = std::cos(t);
-		float sin_t = std::sin(t);
-
-		float x = m_a * sgn(cos_t) * std::pow(std::abs(cos_t), 2.f / m_n);
-		float y = m_b * sgn(sin_t) * std::pow(std::abs(sin_t), 2.f / m_n);
-
-		return { x + m_a, y + m_b };
+	std::size_t Triangle::getPointCount() const {
+		return 3;
+	}
+	sf::Vector2f Triangle::getPoint(size_t index) const {
+		switch (index) {
+			case 0: return m_p1;
+			case 1: return m_p2;
+			case 2: return m_p3;
+		}
 	}
 }
