@@ -54,14 +54,17 @@ namespace us {
 		return { center.x + m_radius * std::cos(angle), center.y + m_radius * std::sin(angle) };
 	}
 
+	sf::Vector2f RoundedRectangleShape::getSize() const {
+		return m_size;
+	}
 
 
-	Triangle::Triangle(const sf::Vector2f pointA, const sf::Vector2f pointB, const sf::Vector2f pointC) 
+	TriangleShape::TriangleShape(const sf::Vector2f pointA, const sf::Vector2f pointB, const sf::Vector2f pointC)
 		: m_p1(pointA), m_p2(pointB), m_p3(pointC) {
 		update();
 	}
 
-	void Triangle::setPoint(std::size_t index, const sf::Vector2f& position) {
+	void TriangleShape::setPoint(std::size_t index, const sf::Vector2f& position) {
 		switch (index) {
 		case 0: m_p1 = position; break;
 		case 1: m_p2 = position; break;
@@ -70,10 +73,10 @@ namespace us {
 		update();
 	}
 
-	std::size_t Triangle::getPointCount() const {
+	std::size_t TriangleShape::getPointCount() const {
 		return 3;
 	}
-	sf::Vector2f Triangle::getPoint(size_t index) const {
+	sf::Vector2f TriangleShape::getPoint(size_t index) const {
 		switch (index) {
 			case 0: return m_p1;
 			case 1: return m_p2;

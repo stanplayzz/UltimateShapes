@@ -11,15 +11,16 @@ namespace us {
 
 		virtual size_t getPointCount() const override;
 		virtual sf::Vector2f getPoint(size_t index) const override;
+		sf::Vector2f getSize() const;
 	private:
 		sf::Vector2f m_size;
 		float m_radius;
 		unsigned int m_cornerPoints;
 	};
 
-	class Triangle : public sf::Shape {
+	class TriangleShape : public sf::Shape {
 	public:
-		Triangle(const sf::Vector2f pointA, const sf::Vector2f pointB, const sf::Vector2f pointC);
+		TriangleShape(const sf::Vector2f pointA, const sf::Vector2f pointB, const sf::Vector2f pointC);
 
 		void setPoint(std::size_t index, const sf::Vector2f& position);
 		virtual std::size_t getPointCount() const override;
