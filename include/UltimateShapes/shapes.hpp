@@ -34,7 +34,7 @@ namespace us {
 		TopRight = 1 << 1,
 		BottomRight = 1 << 2,
 		BottomLeft = 1 << 3,
-		None = 0xF
+		None = 0
 	};
 	inline Corner operator|(Corner a, Corner b) { return static_cast<Corner>(static_cast<uint8_t>(a) | static_cast<uint8_t>(b)); }
 	inline Corner operator&(Corner a, Corner b) { return static_cast<Corner>(static_cast<uint8_t>(a) & static_cast<uint8_t>(b)); }

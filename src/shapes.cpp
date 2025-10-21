@@ -90,6 +90,7 @@ namespace us {
 	}
 	void SelectiveRoundedRectangleShape::setCorners(Corner c) {
 		m_corners = c;
+		update();
 	}
 	void SelectiveRoundedRectangleShape::setSize(const sf::Vector2f& size) {
 		m_size = size;
@@ -112,7 +113,6 @@ namespace us {
 		return count;
 	}
 	sf::Vector2f SelectiveRoundedRectangleShape::getPoint(std::size_t index) const {
-		// Map index to corner and local corner index
 		struct CornerInfo { Corner flag; sf::Vector2f center; float startAngle; float endAngle; };
 		CornerInfo cornersInfo[4] = {
 			{ Corner::TopLeft,     { m_radius, m_radius },                 PI, 3.f * PI / 2.f },
@@ -126,7 +126,6 @@ namespace us {
 			std::size_t pointsInCorner = rounded ? m_cornerPoints : 1;
 			if (index < pointsInCorner) {
 				if (!rounded) {
-					// sharp corner
 					switch (c) {
 					case 0: return { 0.f, 0.f };
 					case 1: return { m_size.x, 0.f };
@@ -135,7 +134,6 @@ namespace us {
 					}
 				}
 				else {
-					// rounded corner
 					float angle = cornersInfo[c].startAngle + (cornersInfo[c].endAngle - cornersInfo[c].startAngle) * index / (m_cornerPoints - 1);
 					return {
 						cornersInfo[c].center.x + m_radius * std::cos(angle),
@@ -147,8 +145,6 @@ namespace us {
 				index -= pointsInCorner;
 			}
 		}
-
-		// fallback (should not happen)
 		return { 0.f, 0.f };
 	}
 }
