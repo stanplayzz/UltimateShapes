@@ -83,4 +83,72 @@ namespace us {
 			case 2: return m_p3;
 		}
 	}
+
+	SelectiveRoundedRectangleShape::SelectiveRoundedRectangleShape(const sf::Vector2f& size, float radius, unsigned int cornerPoints)
+		: m_size(size), m_radius(radius), m_cornerPoints(cornerPoints) {
+		update();
+	}
+	void SelectiveRoundedRectangleShape::setCorners(Corner c) {
+		m_corners = c;
+	}
+	void SelectiveRoundedRectangleShape::setSize(const sf::Vector2f& size) {
+		m_size = size;
+		update();
+	}
+	void SelectiveRoundedRectangleShape::setCornerRadius(const float& radius) {
+		m_radius = radius;
+		update();
+	}
+	void SelectiveRoundedRectangleShape::setCornerPointCount(const unsigned int& count) {
+		m_cornerPoints = count;
+		update();
+	}
+	std::size_t SelectiveRoundedRectangleShape::getPointCount() const {
+		std::size_t count = 0;
+		if (static_cast<uint8_t>(m_corners & Corner::TopLeft))     count += m_cornerPoints; else count += 1;
+		if (static_cast<uint8_t>(m_corners & Corner::TopRight))    count += m_cornerPoints; else count += 1;
+		if (static_cast<uint8_t>(m_corners & Corner::BottomRight)) count += m_cornerPoints; else count += 1;
+		if (static_cast<uint8_t>(m_corners & Corner::BottomLeft))  count += m_cornerPoints; else count += 1;
+		return count;
+	}
+	sf::Vector2f SelectiveRoundedRectangleShape::getPoint(std::size_t index) const {
+		// Map index to corner and local corner index
+		struct CornerInfo { Corner flag; sf::Vector2f center; float startAngle; float endAngle; };
+		CornerInfo cornersInfo[4] = {
+			{ Corner::TopLeft,     { m_radius, m_radius },                 PI, 3.f * PI / 2.f },
+			{ Corner::TopRight,    { m_size.x - m_radius, m_radius },      -PI / 2.f, 0.f },
+			{ Corner::BottomRight, { m_size.x - m_radius, m_size.y - m_radius }, 0.f, PI / 2.f },
+			{ Corner::BottomLeft,  { m_radius, m_size.y - m_radius },       PI / 2.f, PI }
+		};
+
+		for (int c = 0; c < 4; ++c) {
+			bool rounded = static_cast<uint8_t>(m_corners & cornersInfo[c].flag);
+			std::size_t pointsInCorner = rounded ? m_cornerPoints : 1;
+			if (index < pointsInCorner) {
+				if (!rounded) {
+					// sharp corner
+					switch (c) {
+					case 0: return { 0.f, 0.f };
+					case 1: return { m_size.x, 0.f };
+					case 2: return { m_size.x, m_size.y };
+					case 3: return { 0.f, m_size.y };
+					}
+				}
+				else {
+					// rounded corner
+					float angle = cornersInfo[c].startAngle + (cornersInfo[c].endAngle - cornersInfo[c].startAngle) * index / (m_cornerPoints - 1);
+					return {
+						cornersInfo[c].center.x + m_radius * std::cos(angle),
+						cornersInfo[c].center.y + m_radius * std::sin(angle)
+					};
+				}
+			}
+			else {
+				index -= pointsInCorner;
+			}
+		}
+
+		// fallback (should not happen)
+		return { 0.f, 0.f };
+	}
 }
