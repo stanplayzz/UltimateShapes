@@ -72,7 +72,7 @@ This inputs 2 `sf::Vector3f`'s for the color. Important is that these colors are
 The third parameter sets the direction of the gradient. For now only horizontal and vertical are supported, set it to `false` to get a vertical gradient, set it to `true` for a horizontal gradient (defaults to false).
 
 > [!IMPORTANT]
-> To use these additional features you have to draw the shapes using `shape.draw(sf::RenderTarget&)`.
+> To use these additional features you have to draw the shape using `shape.draw(sf::RenderTarget&)`.
 
 
 ## Including this library ##
