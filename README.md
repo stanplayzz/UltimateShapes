@@ -67,9 +67,9 @@ Make a triangle with points `pointA`, `pointB`, `pointC`
 All these shapes are build on `us::Shape` which is build on `sf::Shape`.
 This special shape allows for more additional features to be added to any shapes.
 Currently there is one feature using this:
-### <ins>`void addGradient(sf::Vector3f color1, sf::Vector3d color2, bool horizontal = false)`</ins> ###
+### <ins>`void addGradient(sf::Vector3f color1, sf::Vector3d color2, bool horizontal)`</ins> ###
 This inputs 2 `sf::Vector3f`'s for the color. Important is that these colors are values between 0-1 and not 0-255.
-The third parameter sets the direction of the gradient. For now only horizontal and vertical are supported, set it to `false` to get a vertical gradient, set it to `true` for a horizontal gradient.
+The third parameter sets the direction of the gradient. For now only horizontal and vertical are supported, set it to `false` to get a vertical gradient, set it to `true` for a horizontal gradient (defaults to false).
 
 > [!IMPORTANT]
 > To use these additional features you have to draw the shapes using `shape.draw(sf::RenderTarget&)`.
