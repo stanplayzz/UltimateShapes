@@ -6,6 +6,30 @@
 constexpr float PI = std::numbers::pi_v<float>;
 
 namespace us {
+	Shape::Shape() {
+		gradientShader.loadFromFile(SHADERS_DIR + std::string("/gradientShader.frag"), sf::Shader::Type::Fragment);
+	}
+	void Shape::addGradient(const sf::Vector3f color1, const sf::Vector3f color2, bool horizontal = false) {
+		if (!gradientShader.isAvailable()) return;
+
+		if (!gradientAdded) {
+			sf::Image img;
+			img.resize({ 1, 1 }, sf::Color::White);
+			texture.loadFromImage(img);
+			setTexture(&texture); 
+			gradientAdded = true;
+		}
+
+		gradientShader.setUniform("color1", sf::Glsl::Vec3(color1));
+		gradientShader.setUniform("color2", sf::Glsl::Vec3(color2));
+		gradientShader.setUniform("horizontal", horizontal);
+	}
+	void Shape::draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) {
+		if (gradientAdded) states.shader = &gradientShader;
+		target.draw(*this, states);
+	}
+
+
 	RoundedRectangleShape::RoundedRectangleShape(const sf::Vector2f& size, float radius, unsigned int cornerPoints)
 		: m_size(size), m_radius(radius), m_cornerPoints(cornerPoints) {
 		update();

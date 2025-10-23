@@ -1,7 +1,19 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 namespace us {
-	class RoundedRectangleShape : public sf::Shape {
+	class Shape : public sf::Shape {
+	protected:
+		sf::Shader gradientShader;
+		sf::Texture texture;
+		bool gradientAdded = false;
+	public:
+		Shape();
+		~Shape() = default;
+		void addGradient(const sf::Vector3f color1, const sf::Vector3f color2, bool horizontal = false);
+		void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default);
+	};
+
+	class RoundedRectangleShape : public Shape {
 	public:
 		RoundedRectangleShape(const sf::Vector2f& size = sf::Vector2f(0, 0), float radius = 0, unsigned int cornerPointCount = 8);
 
@@ -18,7 +30,7 @@ namespace us {
 		unsigned int m_cornerPoints;
 	};
 
-	class TriangleShape : public sf::Shape {
+	class TriangleShape : public Shape {
 	public:
 		TriangleShape(const sf::Vector2f pointA, const sf::Vector2f pointB, const sf::Vector2f pointC);
 
@@ -39,7 +51,7 @@ namespace us {
 	inline Corner operator|(Corner a, Corner b) { return static_cast<Corner>(static_cast<uint8_t>(a) | static_cast<uint8_t>(b)); }
 	inline Corner operator&(Corner a, Corner b) { return static_cast<Corner>(static_cast<uint8_t>(a) & static_cast<uint8_t>(b)); }
 
-	class SelectiveRoundedRectangleShape : public sf::Shape {
+	class SelectiveRoundedRectangleShape : public Shape {
 	public:
 		SelectiveRoundedRectangleShape(const sf::Vector2f& size = sf::Vector2f(0.f, 0.f), float radius = 0, unsigned int cornerPointCount = 8);
 
