@@ -47,7 +47,7 @@ enum class Corner{
 This is the enum class for setting corners. Usage as follows:
 ```cpp
 us::SelectiveRoundedRectangleShape shape(sf::Vector2f(100.f, 100.f), 10.f, 5);
-shape.setCorners(us::TopLeft | us:: BottomRight);
+shape.setCorners(us::Corner::TopLeft | us::Corner::BottomRight);
 ```
 
 
