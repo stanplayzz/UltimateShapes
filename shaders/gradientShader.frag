@@ -1,3 +1,5 @@
+#version 150
+
 uniform vec3 color1;
 uniform vec3 color2;
 uniform int horizontal;
