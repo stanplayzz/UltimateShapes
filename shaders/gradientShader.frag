@@ -5,7 +5,7 @@ uniform vec3 color2;
 uniform int horizontal;
 
 void main() {
-	float t
+	float t;
 	if (horizontal == 1) {
 		t = gl_TexCoord[0].x;
 	} else {
