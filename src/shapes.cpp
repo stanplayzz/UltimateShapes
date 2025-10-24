@@ -171,4 +171,7 @@ namespace us {
 		}
 		return { 0.f, 0.f };
 	}
+	sf::Vector2f SelectiveRoundedRectangleShape::getSize() const {
+		return m_size;
+	}
 }
